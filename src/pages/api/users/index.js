@@ -9,7 +9,7 @@ export default function handler(req, res) {
     case 'PUT':
       return updateUser(req, res);
     case 'DELETE':
-      return updateUser(req, res);
+      return deleteUser(req, res);
     default:
       res.status(400).json({error: true, message: 'Peticion erronea'});
   }
@@ -55,12 +55,25 @@ const userList = async (req, res) => {
           };
         }
 
-      const usuarios = await db.User.findAll({
+      const userss = await db.User.findAll({
           where: users,
-          include: ['userStatus','course'],
+          include: [
+            {
+              model: db.Status,
+              as: 'userStatus',
+    
+              attributes: ['name']
+            },
+            {
+              model: db.Course,
+              as: 'course',
+    
+              attributes: ['name']
+            }
+          ]
       });
 
-      return res.json(usuarios);
+      return res.json(userss);
   } catch(error) {
       console.log(error)
       return res.status(400).json(
@@ -125,17 +138,15 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.query;
-    const users = await db.User.update({...req.body},
-      {
-        where: {
-          id
-        }
+    const users = await db.User.destroy({
+      where: {
+        id
       }
-    )
+    })
     res.status(200).json(
       {
         users,
-        message: 'El usuario fue actualizado correctamente'
+        message: 'El usuario fue eliminado correctamente'
       }
     )
     

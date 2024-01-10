@@ -19,7 +19,7 @@ const statusList = async (req, res) => {
         let status = [];
 
         if(status) {
-            status = await db.Statuses.findAll({
+            status = await db.Status.findAll({
             })
         }
 

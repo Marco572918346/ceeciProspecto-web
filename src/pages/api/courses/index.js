@@ -19,7 +19,7 @@ const coursesList = async (req, res) => {
         let courses = [];
 
         if(courses) {
-            courses = await db.Courses.findAll({
+            courses = await db.Course.findAll({
             })
         }
 
