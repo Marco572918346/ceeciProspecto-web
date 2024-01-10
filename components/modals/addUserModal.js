@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from 'react';
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -7,7 +7,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import PeopleIcon from "@mui/icons-material/People";
-import { Box, Grid, TextField } from "@mui/material";
+import { Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import apiClient from "../../apiClient";
 import Swal from "sweetalert2";
@@ -26,7 +26,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function AddUser({ recharge }) {
   const [open, setOpen] = React.useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
 
   const [status, setStatusId] = React.useState('');
   const [statuses, setStatus] = useState([]);
@@ -45,9 +45,9 @@ export default function AddUser({ recharge }) {
 
 
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+  // const togglePasswordVisibility = () => {
+  //   setShowPassword(!showPassword);
+  // };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -221,7 +221,7 @@ export default function AddUser({ recharge }) {
 
                     >
                       <MenuItem>Selecciona el status</MenuItem>
-                        {devices.map((item) => (
+                        {statuses.map((item) => (
                        <MenuItem key={item.id} value={item.id}>{`${item.name}`}</MenuItem>
 
                       ))}

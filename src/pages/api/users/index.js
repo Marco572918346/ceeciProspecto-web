@@ -16,18 +16,60 @@ export default function handler(req, res) {
 }
 
 
+// const userList = async (req, res) => {
+//   try {
+//     const users = await db.User.findAll();
+//     return res.json(users);
+    
+//   } catch (error) {
+//     return res.status(400).json(
+//       {
+//         error: true,
+//         message: `Ocurrio un error al procesar la peticion: ${error.message}`
+//       }
+//     )
+//   }
+// }
 const userList = async (req, res) => {
   try {
-    const users = await db.User.findAll();
-    return res.json(users);
-    
-  } catch (error) {
-    return res.status(400).json(
-      {
-        error: true,
-        message: `Ocurrio un error al procesar la peticion: ${error.message}`
+      //leer el Component a filtrar
+      const { name, status } = req.query;
+
+      //Proporcion de operadores
+      const { Op } = require("sequelize");
+      //leer los Component
+      let users = [];
+      if (name) {
+          users = {
+              [Op.or]: [{
+                  name: {//[Op.like]: 'tra%'
+                      [Op.like]: `%${name}%`,
+                  },
+              }],
+          };
       }
-    )
+      if (status) {
+          users = {
+            ...users,
+            status,
+          };
+        }
+
+      const usuarios = await db.User.findAll({
+          where: users,
+          include: ['userStatus','course'],
+      });
+
+      return res.json(usuarios);
+  } catch(error) {
+      console.log(error)
+      return res.status(400).json(
+          {
+              error: true,
+              message: `Ocurrio un error al procesar la peticion: ${error.message}`        
+          }
+      )
+  
   }
 }
 

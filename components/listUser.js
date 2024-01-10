@@ -3,6 +3,7 @@ import { TableRow, TableCell, IconButton, styled, Avatar } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditUserModal from "./modals/editUserModal";
+import apiClient from "../apiClient";
 
 
 const getStatusColor = (status) => {
@@ -32,6 +33,9 @@ function ListUser({ user, onDelete, onUpdate }) {
   const [data, setData] = React.useState({ ...user });
   const [edit, setEdit] = React.useState(false);
 
+  const [status, setStatus] = React.useState([]);
+  const [courses, setCourses] = React.useState([]);
+
   const handleEdit = () => {
     setEdit(true);
   }
@@ -44,8 +48,31 @@ function ListUser({ user, onDelete, onUpdate }) {
     onDelete(data.id);
   }
 
+  const loadStatus = () => {
+    apiClient.get(`/api/status`)
+      .then(response => {
+        setStatus(response.data || []);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+  const loadCourses = () => {
+    apiClient.get(`/api/courses`)
+      .then(response => {
+        setCourses(response.data || []);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+
   React.useEffect(() => {
     setData({ ...user });
+
+    loadStatus();
+    loadCourses();
   }, [user]);
 
   return (
@@ -58,11 +85,11 @@ function ListUser({ user, onDelete, onUpdate }) {
       <TableCell>{data.phone}</TableCell>
       <TableCell>{data.email}</TableCell>
       <TableCell>{data.address}</TableCell>
-      <CustomTableCell status={data.status}>
-        <StatusText status={data.status}>{data.status}</StatusText>
+      <CustomTableCell status={status.name}>
+        <StatusText status={status.name}>{status.name}</StatusText>
       </CustomTableCell>
       <TableCell>
-      <TableCell>{data.area}</TableCell>
+      <TableCell>{courses.area}</TableCell>
     
         <IconButton
           aria-label="Editar"
