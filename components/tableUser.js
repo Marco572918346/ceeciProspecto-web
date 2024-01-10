@@ -167,7 +167,7 @@ const TableUser = () => {
           <Table aria-label="User Table">
             <TableHead>
               <TableRow>
-                <TableCell sx={{ color: '#223354', fontWeight: "800" }}>ID</TableCell>
+                {/* <TableCell sx={{ color: '#223354', fontWeight: "800" }}>ID</TableCell> */}
                 <TableCell sx={{ color: '#223354', fontWeight: "800" }}>NOMBRE</TableCell>
                 <TableCell sx={{ color: '#223354', fontWeight: "800" }}>TELÉFONO</TableCell>
                 <TableCell sx={{ color: '#223354', fontWeight: "800" }}>EMAIL</TableCell>
