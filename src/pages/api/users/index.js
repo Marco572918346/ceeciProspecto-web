@@ -55,12 +55,25 @@ const userList = async (req, res) => {
           };
         }
 
-      const usuarios = await db.User.findAll({
+      const userss = await db.User.findAll({
           where: users,
-          include: ['userStatus','course'],
+          include: [
+            {
+              model: db.Status,
+              as: 'userStatus',
+    
+              attributes: ['name']
+            },
+            {
+              model: db.Course,
+              as: 'course',
+    
+              attributes: ['name']
+            }
+          ]
       });
 
-      return res.json(usuarios);
+      return res.json(userss);
   } catch(error) {
       console.log(error)
       return res.status(400).json(
