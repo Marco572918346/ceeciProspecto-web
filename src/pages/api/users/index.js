@@ -9,7 +9,7 @@ export default function handler(req, res) {
     case 'PUT':
       return updateUser(req, res);
     case 'DELETE':
-      return updateUser(req, res);
+      return deleteUser(req, res);
     default:
       res.status(400).json({error: true, message: 'Peticion erronea'});
   }
@@ -83,17 +83,15 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.query;
-    const users = await db.User.update({...req.body},
-      {
-        where: {
-          id
-        }
+    const users = await db.User.destroy({
+      where: {
+        id
       }
-    )
+    })
     res.status(200).json(
       {
         users,
-        message: 'El usuario fue actualizado correctamente'
+        message: 'El usuario fue eliminado correctamente'
       }
     )
     
