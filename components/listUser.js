@@ -4,7 +4,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditUserModal from "./modals/editUserModal";
 import apiClient from "../apiClient";
-
+import { useState, useEffect } from 'react';
 
 const getStatusColor = (status) => {
   return status === "Cancelado"
@@ -32,9 +32,14 @@ const StatusText = styled("span")(({ status }) => ({
 function ListUser({ user, onDelete, onUpdate }) {
   const [data, setData] = React.useState({ ...user });
   const [edit, setEdit] = React.useState(false);
-
-  const [status, setStatus] = React.useState([]);
+  const [userss, setUserss] = React.useState([]);
+  const [statuses, setStatus] = React.useState([]);
   const [courses, setCourses] = React.useState([]);
+
+  
+  const userStatus = userss.find(item => item.id === data.id)?.userStatus;
+  const userCourse = userss.find(item => item.id === data.id)?.course;
+
 
   const handleEdit = () => {
     setEdit(true);
@@ -48,49 +53,64 @@ function ListUser({ user, onDelete, onUpdate }) {
     onDelete(data.id);
   }
 
-  const loadStatus = () => {
-    apiClient.get(`/api/status`)
+    useEffect(() => {
+        apiClient.get('api/users')
+        .then(response => {
+            setUserss(response.data || []);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+    }, []);
+
+  useEffect(() => {
+    apiClient.get('api/status')
       .then(response => {
         setStatus(response.data || []);
       })
       .catch(error => {
         console.log(error);
       });
-  }
-  const loadCourses = () => {
-    apiClient.get(`/api/courses`)
+
+  }, []);
+
+  useEffect(() => {
+    apiClient.get('api/courses')
       .then(response => {
         setCourses(response.data || []);
       })
       .catch(error => {
         console.log(error);
       });
-  }
+
+  }, []);
 
 
-  React.useEffect(() => {
-    setData({ ...user });
+//   React.useEffect(() => {
+//     setData({ ...user });
 
-    loadStatus();
-    loadCourses();
-  }, [user]);
+//   }, [user]);
 
   return (
     <TableRow key={data.id}>
       <TableCell>{data.id}</TableCell>
-      <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-        {/* <Avatar src={data.image} /> */}
-        <span style={{ marginLeft: '10px'}}>{data.name} {data.lastName}</span>
-      </TableCell>
+      <TableCell>{data.name} {data.lastname} </TableCell>
       <TableCell>{data.phone}</TableCell>
       <TableCell>{data.email}</TableCell>
       <TableCell>{data.address}</TableCell>
-      <CustomTableCell status={status.name}>
-        <StatusText status={status.name}>{status.name}</StatusText>
-      </CustomTableCell>
       <TableCell>
-      <TableCell>{courses.area}</TableCell>
-    
+        {userStatus ? (
+            <StatusText status={userStatus.name}>{userStatus.name}</StatusText>
+        ) : (
+            "N/A"
+        )}
+      </TableCell>
+      <TableCell>
+      {userCourse ? userCourse.area : "N/A"}
+      </TableCell>
+      
+      <TableCell>
         <IconButton
           aria-label="Editar"
           onClick={handleEdit}

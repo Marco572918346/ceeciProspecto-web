@@ -54,18 +54,6 @@ const TableUser = () => {
       });
   };
 
-  // const loadUsers = () => {
-  //   console.log('Se recargó');
-  //   apiClient.get("/api/users")
-  //     .then((response) => {
-  //       console.log("Respuesta de la API:", response.data);
-  //       setUsers(response.data || []);
-  //       setFilteredUsers(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
 
   useEffect(() => {
     loadUsers();
