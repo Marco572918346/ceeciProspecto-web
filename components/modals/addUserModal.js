@@ -31,11 +31,26 @@ export default function AddUser({ recharge }) {
   const [status, setStatusId] = React.useState('');
   const [statuses, setStatus] = useState([]);
 
+  const [course, setCourseId] = React.useState('');
+  const [courses, setCourse] = useState([]);
+
   useEffect(() => {
     /*Ir por los productos desde el backend */
     apiClient.get('api/status')
       .then(response => {
         setStatus(response.data || []);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+  }, []);
+
+  useEffect(() => {
+    /*Ir por los productos desde el backend */
+    apiClient.get('api/courses')
+      .then(response => {
+        setCourse(response.data || []);
       })
       .catch(error => {
         console.log(error);
@@ -166,7 +181,7 @@ export default function AddUser({ recharge }) {
                   })}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={6}>
                 <TextField
                   id="phone"
                   variant="outlined"
@@ -187,7 +202,7 @@ export default function AddUser({ recharge }) {
                 <TextField
                   id="email"
                   fullWidth
-                  label="Email"
+                  label="Correo"
                   error={!!errors.email}
                   helperText={errors.email?.message}
                   {...register("email", {
@@ -199,9 +214,26 @@ export default function AddUser({ recharge }) {
                   })}
                 />
               </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="address"
+                  variant="outlined"
+                  fullWidth
+                  label="Dirección"
+                  error={!!errors.address}
+                  helperText={errors.address?.message}
+                  {...register("address", {
+                    required: "El número de teléfono es obligatorio",
+                    pattern: {
+                      value: /^([a-zA-Z0-9]+\s)+\d+(\s\w+)?\s?#\s?\d+$/,
+                      message:"Ingresa una dirección valida",
+                    },
+                  })}
+                />
+              </Grid>
               <Grid item xs={12} md={6}>
                   <FormControl sx={{ m: 0 }} fullWidth>
-                    <InputLabel id="demo-simple-select-autowidth-label">Status</InputLabel>
+                    <InputLabel id="demo-simple-select-autowidth-label">Estatus</InputLabel>
                     <Select
                       id='status'
                       {
@@ -227,7 +259,36 @@ export default function AddUser({ recharge }) {
                       ))}
                     </Select>
                   </FormControl>
-                </Grid>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                  <FormControl sx={{ m: 0 }} fullWidth>
+                    <InputLabel id="demo-simple-select-autowidth-label">Área</InputLabel>
+                    <Select
+                      id='area'
+                      {
+                      ...register('area',
+                        {
+                          required: '*Este campo es obligatorio.',
+                          pattern: {
+                            message: 'No es un area válida.'
+                          }
+                        })
+                      }
+                      onChange={ev => setCourseId(ev.target.value)}
+                      fullWidth
+                      label="Selecciona el status"
+                      error={!!errors.status}
+                      helperText={errors.status?.message}
+
+                    >
+                      <MenuItem>Selecciona el area</MenuItem>
+                        {courses.map((item) => (
+                       <MenuItem key={item.id} value={item.id}>{`${item.area} ${item.name}`}</MenuItem>
+
+                      ))}
+                    </Select>
+                  </FormControl>
+              </Grid>
             </Grid>
           </DialogContentText>
         </DialogContent>
