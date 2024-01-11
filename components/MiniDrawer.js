@@ -16,16 +16,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-// import ButtonClose from "@/components/ButtonClose";
 import PeopleIcon from "@mui/icons-material/People";
-import SmartphoneIcon from "@mui/icons-material/Smartphone";
-import ConstructionIcon from "@mui/icons-material/Construction";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import HomeIcon from '@mui/icons-material/Home';
 import { useRouter } from "next/router";
-// import { useSession } from 'next-auth/react';
-import { Assignment, Devices } from "@mui/icons-material";
-
 
 const drawerWidth = 240;
 
@@ -96,8 +88,6 @@ const Drawer = styled(MuiDrawer, {
 
 export default function MiniDrawer({children}) {
 
-  // const { data: session } = useSession();
-
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -111,23 +101,10 @@ export default function MiniDrawer({children}) {
 
   const router = useRouter();
 
-  const handleHomeClick = () => {
-    router.push('/home'); 
-  };
   const handleUsuariosClick = () => {
     router.push("/users");
   };
 
-  // const handleOrdersClick = () => {
-  //   router.push("/orders")
-  // }
-
-  // const handleDevicesClick = () => {
-  //   router.push("/devices")
-  // }
-  // const handleComponentsClick = () => {
-  //   router.push("/components")
-  // }
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -166,7 +143,7 @@ export default function MiniDrawer({children}) {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Inicio", "Usuarios"].map(
+          {["Prospectos"].map(
             (text, index) => (
               <ListItem key={text} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
@@ -187,19 +164,9 @@ export default function MiniDrawer({children}) {
                   >
                     {
                       index === 0 ? (
-                        <HomeIcon  onClick={handleHomeClick} /> 
-                      ) : index === 1 ? (
-                        <PeopleIcon onClick={handleUsuariosClick} />
-                      ) 
-                      : index === 2 
-                      // ? 
-                      // (
-                      //   <Assignment onClick={handleOrdersClick} />
-                      // ): index === 3 ? (
-                      //   <Devices onClick={handleDevicesClick} />
-                      // ) : (
-                      //   <ConstructionIcon onClick={handleComponentsClick} />
-                      // )
+                        <PeopleIcon  onClick={handleUsuariosClick} /> 
+                      ) : index === 1 
+                      
                     }
                   </ListItemIcon>
                   <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
