@@ -27,18 +27,18 @@ const TableUser = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 5;
 
-  // const handleSearchChange = (event) => {
-  //   setSearchTerm(event.target.value);
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
 
-  //   const filtered = users.filter((user) => {
-  //     const fullName = `${user.name} ${user.lastName}`.toLowerCase();
-  //     const search = event.target.value.toLowerCase();
-  //     return fullName.includes(search);
-  //   });
+    const filtered = users.filter((user) => {
+      const fullName = `${user.name} ${user.lastName}`.toLowerCase();
+      const search = event.target.value.toLowerCase();
+      return fullName.includes(search);
+    });
 
-  //   setFilteredUsers(filtered);
-  //   setCurrentPage(1);
-  // };
+    setFilteredUsers(filtered);
+    setCurrentPage(1);
+  };
 
 
   const loadUsers = () => {
@@ -127,15 +127,16 @@ const TableUser = () => {
 
   return (
     <Box>
-       {/*<Typography sx={{ display: "flex", justifyContent: "Center", fontSize: 25, fontWeight: 'bold',  }}>
-          Usuarios
-        </Typography>*/}
+       
       <Paper>
+        <Typography sx={{ display: "flex", justifyContent: "Center", fontSize: 25, fontWeight: 'bold',  }}>
+          Prospectos
+        </Typography>
         <Box sx={{ display: "flex", justifyContent: "flex-end"}}>
           <AddUser recharge={loadUsers}/>
         </Box>
 
-        {/* <Box sx={{ marginRight: "10px", marginLeft: "10px" }}>
+        <Box sx={{ marginRight: "10px", marginLeft: "10px", padding: "16px" }}>
         <TextField
           placeholder="Buscar usuario"
           variant="outlined"
@@ -150,7 +151,7 @@ const TableUser = () => {
             ),
           }}
         />
-        </Box> */}
+        </Box>
         <TableContainer component={Paper}>
           <Table aria-label="User Table">
             <TableHead>

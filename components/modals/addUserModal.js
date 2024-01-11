@@ -225,7 +225,7 @@ export default function AddUser({ recharge }) {
                   {...register("address", {
                     required: "La dirección es obligatorio",
                     pattern: {
-                      value: /^([a-zA-Z0-9]+\s)+\d+(\s\w+)?\s?#\s?\d+$/,
+                      // value: /^([a-zA-Z0-9]+\s)+\d+(\s\w+)?\s?#\s?\d+$/,
                       message:"Ingresa una dirección valida",
                     },
                   })}
