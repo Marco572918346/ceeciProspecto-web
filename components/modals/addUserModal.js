@@ -166,13 +166,13 @@ export default function AddUser({ recharge }) {
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
-                  id="lastName"
+                  id="lastname"
                   variant="outlined"
                   fullWidth
                   label="Apellido"
-                  error={!!errors.lastName}
-                  helperText={errors.lastName?.message}
-                  {...register("lastName", {
+                  error={!!errors.lastname}
+                  helperText={errors.lastname?.message}
+                  {...register("lastname", {
                     required: "El apellido es obligatorio",
                     pattern: {
                       value: /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g,
@@ -223,7 +223,7 @@ export default function AddUser({ recharge }) {
                   error={!!errors.address}
                   helperText={errors.address?.message}
                   {...register("address", {
-                    required: "El número de teléfono es obligatorio",
+                    required: "La dirección es obligatorio",
                     pattern: {
                       value: /^([a-zA-Z0-9]+\s)+\d+(\s\w+)?\s?#\s?\d+$/,
                       message:"Ingresa una dirección valida",
@@ -276,7 +276,7 @@ export default function AddUser({ recharge }) {
                       }
                       onChange={ev => setCourseId(ev.target.value)}
                       fullWidth
-                      label="Selecciona el status"
+                      label="Selecciona el area"
                       error={!!errors.status}
                       helperText={errors.status?.message}
 

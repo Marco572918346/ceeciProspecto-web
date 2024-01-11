@@ -19,10 +19,21 @@ import SaveIcon from '@mui/icons-material/Save';
 import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2';
 import apiClient from "../../apiClient";
+import { useEffect } from 'react';
 
 function EditUserModal({ open, user, onClose, onUpdate }) {
+  
+
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const [data, setData] = React.useState({ ...user });
   const [users, setUsers] = React.useState([]);
+  const [statuses, setStatus] = React.useState([]);
+  const [courses, setCourses] = React.useState([]);
+  const [statuss, setStatusId] = React.useState('');
+  const [course, setCourseId] = React.useState('');
+
+  const userStatus = users.find(item => item.id === data.id)?.userStatus;
+  const userCourse = users.find(item => item.id === data.id)?.course;
 
   const onSubmit = (data,) => {
     data.id = user.id;
@@ -50,6 +61,39 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
         });
       });
   };
+
+  useEffect(() => {
+    apiClient.get('api/users')
+    .then(response => {
+      setUsers(response.data || []);
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
+  }, []);
+
+  useEffect(() => {
+    apiClient.get('api/status')
+      .then(response => {
+        setStatus(response.data || []);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+  }, []);
+
+  useEffect(() => {
+    apiClient.get('api/courses')
+      .then(response => {
+        setCourses(response.data || []);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+  }, []);
 
   return (
     <Dialog
@@ -92,14 +136,14 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
-                id="lastName"
+                id="lastname"
                 label="Apellido"
                 variant="outlined"
                 fullWidth
-                defaultValue={user.lastName}
-                error={!!errors.lastName}
-                helperText={errors.lastName?.message}
-                {...register("lastName", {
+                defaultValue={user.lastname}
+                error={!!errors.lastname}
+                helperText={errors.lastname?.message}
+                {...register("lastname", {
                   required: "Este campo es obligatorio",
                   pattern: {
                     value: /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g,
@@ -108,7 +152,7 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
                 })}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
               <TextField
                 id="phone"
                 label="Teléfono"
@@ -126,60 +170,138 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
                 })}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
               <TextField
-                id="imagen"
-                label="Imagen"
+                id="email"
+                label="Email"
                 variant="outlined"
                 fullWidth
-                defaultValue={user.image}
-                error={!!errors.image}
-                helperText={errors.image?.message}
-                {...register("image", {
-                  required: "Este campo es obligatorio",
+                defaultValue={user.email}
+                error={!!errors.email}
+                helperText={errors.email?.message}
+                {...register("email", {
+                  required: "El Email es Obligatorio",
                   pattern: {
-                    value: /^(https?|ftp|file):\/\/.+$/,
-                    message: "La URL del avatar no es válida. Debe ser una URL completa",
+                    value: /(.+)@(.+){2,}\.(.+){3,}/i,
+                    message: "No es un email Válido",
                   },
                 })}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
-                <TextField
-                  id="email"
-                  label="Email"
-                  variant="outlined"
-                  fullWidth
-                  defaultValue={user.email}
-                  error={!!errors.email}
-                  helperText={errors.email?.message}
-                  {...register("email", {
-                    required: "El Email es Obligatorio",
-                    pattern: {
-                      value: /(.+)@(.+){2,}\.(.+){3,}/i,
-                      message: "No es un email Válido",
-                    },
-                  })}
-                />
+            <Grid item xs={12}>
+              <TextField
+                id="address"
+                variant="outlined"
+                fullWidth
+                defaultValue={user.address}
+                label="Dirección"
+                error={!!errors.address}
+                helperText={errors.address?.message}
+                {...register("address", {
+                  required: "La dirección es obligatorio",
+                  pattern: {
+                    value: /^([a-zA-Z0-9]+\s)+\d+(\s\w+)?\s?#\s?\d+$/,
+                    message:"Ingresa una dirección valida",
+                  },
+                })}
+              />
               </Grid>
-            <Grid item xs={12} md={6}>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel htmlFor="rol">Rol</InputLabel>
-                <Select
-                  label="Rol"
-                  defaultValue={user.rol}
-                  id="rol"
-                  name="rol"
-                  error={!!errors.rol}
-                  {...register("rol", {
-                    required: "Este campo es obligatorio",
-                  })}
-                >
-                  <MenuItem value="administrador">administrador</MenuItem>
-                  <MenuItem value="empleado">empleado</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
+              {/* <Grid item xs={12} md={6}>
+                <FormControl sx={{ m: 0 }} fullWidth>
+                  <InputLabel htmlFor="demo-simple-select-autowidth-label">Estatus</InputLabel>
+                  <Select
+                    defaultValue={user.status}
+                    id="status"
+                    name="status"
+                    onChange={ev => setStatusId(ev.target.value)}
+                    fullWidth
+                    label={status.name}
+                    error={!!errors.status}
+                    {...register("status", {
+                      required: "Este campo es obligatorio",
+                    })}
+                  >
+                      <MenuItem>Selecciona el status</MenuItem>
+                      {userStatus ? (
+                       <MenuItem status={userStatus.name}>{userStatus.name}</MenuItem>
+                       ) : (
+                        "N/A"
+                      )} 
+                      <MenuItem>Selecciona el status</MenuItem>
+                        {statuses.map((item) => (
+                       <MenuItem status={userStatus.name}>{item.name}</MenuItem>
+
+                      ))}
+                      
+                  </Select>
+                </FormControl>
+              </Grid> */}
+              <Grid item xs={12} md={6}>
+                  <FormControl sx={{ m: 0 }} fullWidth>
+                    {userStatus ? (
+                      <InputLabel id="demo-simple-select-autowidth-label">{userStatus.name}</InputLabel>
+                    ) : (
+                      "N/A"
+                    )}
+                    <Select
+                      id='status'
+                      {
+                      ...register('status',
+                        {
+                          required: '*Este campo es obligatorio.',
+                          pattern: {
+                            message: 'No es un status válido.'
+                          }
+                        })
+                      }
+                      onChange={ev => setStatusId(ev.target.value)}
+                      fullWidth
+                      label="Selecciona el status"
+                      error={!!errors.status}
+                      helperText={errors.status?.message}
+
+                    >
+                      <MenuItem>Selecciona el status</MenuItem>
+                        {statuses.map((item) => (
+                       <MenuItem key={item.id} value={item.id}>{`${item.name}`}</MenuItem>
+
+                      ))}
+                    </Select>
+                  </FormControl>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                  <FormControl sx={{ m: 0 }} fullWidth>
+                    {userCourse ? (
+                      <InputLabel id="demo-simple-select-autowidth-label">{userCourse.name}</InputLabel>
+                    ) : (
+                      "N/A"
+                    )}
+                    <Select
+                      id='area'
+                      {
+                      ...register('area',
+                        {
+                          required: '*Este campo es obligatorio.',
+                          pattern: {
+                            message: 'No es un area válida.'
+                          }
+                        })
+                      }
+                      onChange={ev => setCourseId(ev.target.value)}
+                      fullWidth
+                      label="Selecciona el area"
+                      error={!!errors.status}
+                      helperText={errors.status?.message}
+
+                    >
+                      <MenuItem>Selecciona el area</MenuItem>
+                        {courses.map((item) => (
+                       <MenuItem key={item.id} value={item.id}>{`${item.area} ${item.name}`}</MenuItem>
+
+                      ))}
+                    </Select>
+                  </FormControl>
+              </Grid>
           </Grid>
         </DialogContentText>
       </DialogContent>
