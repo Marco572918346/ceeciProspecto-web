@@ -32,15 +32,13 @@ const StatusText = styled("span")(({ status }) => ({
 function ListUser({ user, onDelete, onUpdate }) {
   const [data, setData] = React.useState({ ...user });
   const [edit, setEdit] = React.useState(false);
-
-  const [status, setStatusId] = React.useState([]);
+  const [userss, setUserss] = React.useState([]);
   const [statuses, setStatus] = React.useState([]);
   const [courses, setCourses] = React.useState([]);
 
-
-  const userStatus = statuses.find(item => item.id === data.status.id);
-  const userCourse = courses.find(item => item.area === data.area.id);
-
+  
+  const userStatus = userss.find(item => item.id === data.id)?.userStatus;
+  const userCourse = userss.find(item => item.id === data.id)?.course;
 
 
   const handleEdit = () => {
@@ -55,10 +53,19 @@ function ListUser({ user, onDelete, onUpdate }) {
     onDelete(data.id);
   }
 
-  useEffect(() => {
-    /*Ir por los productos desde el backend */
+    useEffect(() => {
+        apiClient.get('api/users')
+        .then(response => {
+            setUserss(response.data || []);
+        })
+        .catch(error => {
+            console.log(error);
+        });
 
-    apiClient.get(`api/status/${user.status}`)
+    }, []);
+
+  useEffect(() => {
+    apiClient.get('api/status')
       .then(response => {
         setStatus(response.data || []);
       })
@@ -69,9 +76,7 @@ function ListUser({ user, onDelete, onUpdate }) {
   }, []);
 
   useEffect(() => {
-    /*Ir por los productos desde el backend */
-
-    apiClient.get(`api/courses/${user.area}`)
+    apiClient.get('api/courses')
       .then(response => {
         setCourses(response.data || []);
       })
@@ -82,41 +87,30 @@ function ListUser({ user, onDelete, onUpdate }) {
   }, []);
 
 
-  React.useEffect(() => {
-    setData({ ...user });
+//   React.useEffect(() => {
+//     setData({ ...user });
 
-  }, [user]);
+//   }, [user]);
 
   return (
     <TableRow key={data.id}>
-      {/* <TableCell>{data.id}</TableCell> */}
+      <TableCell>{data.id}</TableCell>
       <TableCell>{data.name} {data.lastname} </TableCell>
       <TableCell>{data.phone}</TableCell>
       <TableCell>{data.email}</TableCell>
       <TableCell>{data.address}</TableCell>
-        {/* {statuses.map((item) => (
-            <MenuItem key={item.id} value={item.id}>{`${item.name}`}</MenuItem>
-        ))} */}
-      {/* <CustomTableCell status={status}>
-        <StatusText status={status}>{status}</StatusText>
-      </CustomTableCell> */}
-
-        <TableCell>
+      <TableCell>
         {userStatus ? (
             <StatusText status={userStatus.name}>{userStatus.name}</StatusText>
         ) : (
             "N/A"
         )}
-        </TableCell>
-        <TableCell>
-        {userCourse ? userCourse.area : "N/A"}
-        </TableCell>
-
-
-
+      </TableCell>
       <TableCell>
-      {/* <TableCell>{courses.area}</TableCell> */}
-    
+      {userCourse ? userCourse.area : "N/A"}
+      </TableCell>
+      
+      <TableCell>
         <IconButton
           aria-label="Editar"
           onClick={handleEdit}

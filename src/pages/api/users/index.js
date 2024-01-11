@@ -68,7 +68,7 @@ const userList = async (req, res) => {
               model: db.Course,
               as: 'course',
     
-              attributes: ['name']
+              attributes: ['name', 'area']
             }
           ]
       });

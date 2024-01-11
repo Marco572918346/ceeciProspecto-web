@@ -54,18 +54,6 @@ const TableUser = () => {
       });
   };
 
-  // const loadUsers = () => {
-  //   console.log('Se recargó');
-  //   apiClient.get("/api/users")
-  //     .then((response) => {
-  //       console.log("Respuesta de la API:", response.data);
-  //       setUsers(response.data || []);
-  //       setFilteredUsers(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
 
   useEffect(() => {
     loadUsers();
@@ -167,7 +155,7 @@ const TableUser = () => {
           <Table aria-label="User Table">
             <TableHead>
               <TableRow>
-                {/* <TableCell sx={{ color: '#223354', fontWeight: "800" }}>ID</TableCell> */}
+                <TableCell sx={{ color: '#223354', fontWeight: "800" }}>ID</TableCell>
                 <TableCell sx={{ color: '#223354', fontWeight: "800" }}>NOMBRE</TableCell>
                 <TableCell sx={{ color: '#223354', fontWeight: "800" }}>TELÉFONO</TableCell>
                 <TableCell sx={{ color: '#223354', fontWeight: "800" }}>EMAIL</TableCell>
