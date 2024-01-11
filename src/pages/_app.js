@@ -1,5 +1,5 @@
 import '@/styles/globals.css'
-import { Drawer } from '@mui/material';
+import Drawer from '../../components/Drawer';
 
 export default function App({ Component, pageProps }) {
   return (
@@ -7,4 +7,6 @@ export default function App({ Component, pageProps }) {
       <Component {...pageProps} />
     </Drawer>
   );
+  
 }
+
