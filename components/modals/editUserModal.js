@@ -204,7 +204,7 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
                 {...register("address", {
                   required: "La dirección es obligatorio",
                   pattern: {
-                    value: /^([a-zA-Z0-9]+\s)+\d+(\s\w+)?\s?#\s?\d+$/,
+                    value: /^[\w\s\.,#áéíóúüñÁÉÍÓÚÜÑ-]+$/,
                     message:"Ingresa una dirección valida",
                   },
                 })}
