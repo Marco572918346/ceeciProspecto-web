@@ -9,25 +9,80 @@ export default function handler(req, res) {
     case 'PUT':
       return updateUser(req, res);
     case 'DELETE':
-      return updateUser(req, res);
+      return deleteUser(req, res);
     default:
       res.status(400).json({error: true, message: 'Peticion erronea'});
   }
 }
 
 
+// const userList = async (req, res) => {
+//   try {
+//     const users = await db.User.findAll();
+//     return res.json(users);
+    
+//   } catch (error) {
+//     return res.status(400).json(
+//       {
+//         error: true,
+//         message: `Ocurrio un error al procesar la peticion: ${error.message}`
+//       }
+//     )
+//   }
+// }
 const userList = async (req, res) => {
   try {
-    const users = await db.User.findAll();
-    return res.json(users);
-    
-  } catch (error) {
-    return res.status(400).json(
-      {
-        error: true,
-        message: `Ocurrio un error al procesar la peticion: ${error.message}`
+      //leer el Component a filtrar
+      const { name, status } = req.query;
+
+      //Proporcion de operadores
+      const { Op } = require("sequelize");
+      //leer los Component
+      let users = [];
+      if (name) {
+          users = {
+              [Op.or]: [{
+                  name: {//[Op.like]: 'tra%'
+                      [Op.like]: `%${name}%`,
+                  },
+              }],
+          };
       }
-    )
+      if (status) {
+          users = {
+            ...users,
+            status,
+          };
+        }
+
+      const userss = await db.User.findAll({
+          where: users,
+          include: [
+            {
+              model: db.Status,
+              as: 'userStatus',
+    
+              attributes: ['name']
+            },
+            {
+              model: db.Course,
+              as: 'course',
+    
+              attributes: ['name', 'area']
+            }
+          ]
+      });
+
+      return res.json(userss);
+  } catch(error) {
+      console.log(error)
+      return res.status(400).json(
+          {
+              error: true,
+              message: `Ocurrio un error al procesar la peticion: ${error.message}`        
+          }
+      )
+  
   }
 }
 
@@ -83,17 +138,15 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.query;
-    const users = await db.User.update({...req.body},
-      {
-        where: {
-          id
-        }
+    const users = await db.User.destroy({
+      where: {
+        id
       }
-    )
+    })
     res.status(200).json(
       {
         users,
-        message: 'El usuario fue actualizado correctamente'
+        message: 'El usuario fue eliminado correctamente'
       }
     )
     
