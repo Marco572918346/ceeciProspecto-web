@@ -35,7 +35,7 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
   const userStatus = users.find(item => item.id === data.id)?.userStatus;
   const userCourse = users.find(item => item.id === data.id)?.course;
 
-  const onSubmit = (data,) => {
+  const onSubmit = (data) => {
     data.id = user.id;
     console.log("Usuario a actualizar:", user);
     apiClient.put(`/api/users?id=${user.id}`, data)
@@ -51,7 +51,11 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
         onClose();
         onUpdate(data);
         //reset();
-      })
+
+        setTimeout(function() {
+          location.reload(true);
+          }, 3000); 
+        })
       .catch((error) => {
         console.log("Error al actualizar usuario:", error);
         Swal.fire({
