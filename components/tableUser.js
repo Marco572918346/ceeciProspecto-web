@@ -152,7 +152,7 @@ const TableUser = () => {
           }}
         />
         </Box>
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} style={{ overflowX: "auto" }}>
           <Table aria-label="User Table">
             <TableHead>
               <TableRow>

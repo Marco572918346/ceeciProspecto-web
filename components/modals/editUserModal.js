@@ -37,6 +37,21 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
 
   const onSubmit = (data) => {
     data.id = user.id;
+    //posibles modificaciones
+    if (!statuss || isNaN(statuss)) {
+      data.status = 1; // Puedes asignar un valor predeterminado, por ejemplo, 1
+    } else {
+      data.status = parseInt(statuss, 10); // Convertir a entero si es un número válido
+    }
+  
+    // Verificación y asignación de valor predeterminado si course es vacío o no es un entero
+    if (!course || isNaN(course)) {
+      data.area = 1; // Puedes asignar un valor predeterminado, por ejemplo, 1
+    } else {
+      data.area = parseInt(course, 10); // Convertir a entero si es un número válido
+    }
+
+    //fin de posibles modificaciones
     console.log("Usuario a actualizar:", user);
     apiClient.put(`/api/users?id=${user.id}`, data)
       .then((response) => {
@@ -248,21 +263,22 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
                       "N/A"
                     )}
                     <Select
-                      id='status'
+                      id='userStatus'
                       {
-                      ...register('status',
-                        {
-                          required: '*Este campo es obligatorio.',
-                          pattern: {
-                            message: 'No es un status válido.'
-                          }
-                        })
+                      ...register('userStatus',
+                        // {
+                        //   required: '*Este campo es obligatorio.',
+                        //   pattern: {
+                        //     message: 'No es un status válido.'
+                        //   }
+                        // }
+                        )
                       }
                       onChange={ev => setStatusId(ev.target.value)}
                       fullWidth
                       label="Selecciona el status"
-                      error={!!errors.status}
-                      helperText={errors.status?.message}
+                      error={!!errors.userStatus}
+                      helperText={errors.userStatus?.message}
 
                     >
                       <MenuItem>Selecciona el status</MenuItem>
@@ -281,21 +297,22 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
                       "N/A"
                     )}
                     <Select
-                      id='area'
+                      id='userCourse'
                       {
-                      ...register('area',
-                        {
-                          required: '*Este campo es obligatorio.',
-                          pattern: {
-                            message: 'No es un area válida.'
-                          }
-                        })
+                      ...register('userCourse',
+                        // {
+                        //   required: '*Este campo es obligatorio.',
+                        //   pattern: {
+                        //     message: 'No es un area válida.'
+                        //   }
+                        // }
+                        )
                       }
                       onChange={ev => setCourseId(ev.target.value)}
                       fullWidth
                       label="Selecciona el area"
-                      error={!!errors.status}
-                      helperText={errors.status?.message}
+                      error={!!errors.userCourse}
+                      helperText={errors.userCourse?.message}
 
                     >
                       <MenuItem>Selecciona el area</MenuItem>
