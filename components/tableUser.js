@@ -158,11 +158,13 @@ const TableUser = () => {
               <TableRow>
                 <TableCell sx={{ color: '#223354', fontWeight: "800" }}>ID</TableCell>
                 <TableCell sx={{ color: '#223354', fontWeight: "800" }}>NOMBRE</TableCell>
+                <TableCell sx={{ color: '#223354', fontWeight: "800" }}>APELLIDOS</TableCell>
                 <TableCell sx={{ color: '#223354', fontWeight: "800" }}>TELÉFONO</TableCell>
                 <TableCell sx={{ color: '#223354', fontWeight: "800" }}>EMAIL</TableCell>
                 <TableCell sx={{ color: '#223354', fontWeight: "800" }}>DIRECCIÓN</TableCell>
                 <TableCell sx={{ color: '#223354', fontWeight: "800" }}>STATUS</TableCell>
                 <TableCell sx={{ color: '#223354', fontWeight: "800" }}>ÁREA</TableCell>
+                <TableCell sx={{ color: '#223354', fontWeight: "800" }}>OBSERVACIONES</TableCell>
                 <TableCell sx={{ color: '#223354', fontWeight: "800" }}>ACCIONES</TableCell>
               </TableRow>
             </TableHead>
