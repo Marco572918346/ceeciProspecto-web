@@ -182,6 +182,23 @@ export default function AddUser({ recharge }) {
                 />
               </Grid>
               <Grid item xs={12} md={6}>
+              <TextField
+                id="secondLastname"
+                label="Apellido Materno"
+                variant="outlined"
+                fullWidth
+                error={!!errors.secondLastname}
+                helperText={errors.secondLastname?.message}
+                {...register("secondLastname", {
+                  required: "Este campo es obligatorio",
+                  pattern: {
+                    value: /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g,
+                    message: "El apellido solo debe contener letras",
+                  },
+                })}
+              />
+            </Grid>
+              <Grid item xs={12} md={6}>
                 <TextField
                   id="phone"
                   variant="outlined"
@@ -198,7 +215,7 @@ export default function AddUser({ recharge }) {
                   })}
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12}>
                 <TextField
                   id="email"
                   fullWidth
@@ -288,6 +305,23 @@ export default function AddUser({ recharge }) {
                       ))}
                     </Select>
                   </FormControl>
+              </Grid>
+              <Grid item xs={12} >
+                <TextField
+                  id="observations"
+                  label="Observaciones"
+                  variant="outlined"
+                  fullWidth
+                  error={!!errors.observations}
+                  helperText={errors.observations?.message}
+                  {...register("observations", {
+                    required: "Este campo es obligatorio",
+                    pattern: {
+                      value: /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g,
+                      message: "El apellido solo debe contener letras",
+                    },
+                  })}
+                />
               </Grid>
             </Grid>
           </DialogContentText>
