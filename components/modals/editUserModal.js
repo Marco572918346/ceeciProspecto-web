@@ -37,6 +37,7 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
 
   const onSubmit = (data) => {
     data.id = user.id;
+    data.observations = user.observations;
     //posibles modificaciones
     if (!statuss || isNaN(statuss)) {
       data.status = 1; // Puedes asignar un valor predeterminado, por ejemplo, 1
@@ -156,13 +157,31 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
             <Grid item xs={12} md={6}>
               <TextField
                 id="lastname"
-                label="Apellido"
+                label="Apellido Paterno"
                 variant="outlined"
                 fullWidth
                 defaultValue={user.lastname}
                 error={!!errors.lastname}
                 helperText={errors.lastname?.message}
                 {...register("lastname", {
+                  required: "Este campo es obligatorio",
+                  pattern: {
+                    value: /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g,
+                    message: "El apellido solo debe contener letras",
+                  },
+                })}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                id="secondLastname"
+                label="Apellido Materno"
+                variant="outlined"
+                fullWidth
+                defaultValue={user.secondLastname}
+                error={!!errors.secondLastname}
+                helperText={errors.secondLastname?.message}
+                {...register("secondLastname", {
                   required: "Este campo es obligatorio",
                   pattern: {
                     value: /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g,
@@ -189,10 +208,10 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
                 })}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12}>
               <TextField
                 id="email"
-                label="Email"
+                label="Correo electronico"
                 variant="outlined"
                 fullWidth
                 defaultValue={user.email}
@@ -225,36 +244,6 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
                 })}
               />
               </Grid>
-              {/* <Grid item xs={12} md={6}>
-                <FormControl sx={{ m: 0 }} fullWidth>
-                  <InputLabel htmlFor="demo-simple-select-autowidth-label">Estatus</InputLabel>
-                  <Select
-                    defaultValue={user.status}
-                    id="status"
-                    name="status"
-                    onChange={ev => setStatusId(ev.target.value)}
-                    fullWidth
-                    label={status.name}
-                    error={!!errors.status}
-                    {...register("status", {
-                      required: "Este campo es obligatorio",
-                    })}
-                  >
-                      <MenuItem>Selecciona el status</MenuItem>
-                      {userStatus ? (
-                       <MenuItem status={userStatus.name}>{userStatus.name}</MenuItem>
-                       ) : (
-                        "N/A"
-                      )} 
-                      <MenuItem>Selecciona el status</MenuItem>
-                        {statuses.map((item) => (
-                       <MenuItem status={userStatus.name}>{item.name}</MenuItem>
-
-                      ))}
-                      
-                  </Select>
-                </FormControl>
-              </Grid> */}
               <Grid item xs={12} md={6}>
                   <FormControl sx={{ m: 0 }} fullWidth>
                     {userStatus ? (
@@ -275,13 +264,12 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
                         )
                       }
                       onChange={ev => setStatusId(ev.target.value)}
-                      fullWidth
                       label="Selecciona el status"
+                      fullWidth
                       error={!!errors.userStatus}
                       helperText={errors.userStatus?.message}
-
                     >
-                      <MenuItem>Selecciona el status</MenuItem>
+                      <MenuItem>Selecciona el Estatus</MenuItem>
                         {statuses.map((item) => (
                        <MenuItem key={item.id} value={item.id}>{`${item.name}`}</MenuItem>
 
@@ -294,7 +282,7 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
                     {userCourse ? (
                       <InputLabel id="demo-simple-select-autowidth-label">{userCourse.name}</InputLabel>
                     ) : (
-                      "N/A"
+                      <InputLabel id="userStatusLabel">Selecciona el Estatus</InputLabel>
                     )}
                     <Select
                       id='userCourse'
@@ -322,6 +310,24 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
                       ))}
                     </Select>
                   </FormControl>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  id="observations"
+                  label='Observaciones'
+                  variant="outlined"
+                  fullWidth
+                  defaultValue={user.observations}
+                  error={!!errors.observations}
+                  helperText={errors.observations?.message}
+                  {...register("observations", {
+                    required: "Este campo es obligatorio",
+                    pattern: {
+                      value: /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g,
+                      message: "El apellido solo debe contener letras",
+                    },
+                  })}
+                />
               </Grid>
           </Grid>
         </DialogContentText>

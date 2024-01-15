@@ -95,7 +95,8 @@ function ListUser({ user, onDelete, onUpdate }) {
   return (
     <TableRow key={data.id}>
       <TableCell>{data.id}</TableCell>
-      <TableCell>{`${data.name} ${data.lastname}`} </TableCell>
+      <TableCell>{data.name}</TableCell>
+      <TableCell>{`${data.lastname} ${data.secondLastname}`}</TableCell>
       <TableCell>{data.phone}</TableCell>
       <TableCell>{data.email}</TableCell>
       <TableCell>{data.address}</TableCell>
@@ -109,6 +110,7 @@ function ListUser({ user, onDelete, onUpdate }) {
       <TableCell>
       {userCourse ? `${userCourse.area} / ${userCourse.name}` : "N/A"}
       </TableCell>
+      <TableCell>{data.observations}</TableCell>
       
       <TableCell>
         <IconButton

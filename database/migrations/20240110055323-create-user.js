@@ -17,6 +17,10 @@ module.exports = {
         type: Sequelize.STRING(15),
         allowNull:false,
       },
+      secondLastname: {
+        type: Sequelize.STRING(15),
+        allowNull:false,
+      },
       phone: {
         type: Sequelize.STRING(10),
         allowNull:false,
@@ -45,6 +49,10 @@ module.exports = {
           model: 'Courses',
           key: 'id'
         }
+      },
+      observations: {
+        type: Sequelize.STRING(200),
+        allowNull:true,
       },
       createdAt: {
         allowNull: false,
