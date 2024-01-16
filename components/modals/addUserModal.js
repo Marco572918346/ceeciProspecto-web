@@ -136,10 +136,7 @@ export default function AddUser({ recharge }) {
             display: "flex",
             justifyContent: "center",
             fontSize: 25,
-            fontWeight: "bold",
-            backgroundColor: "rgba(75, 114, 139, 0.05)",
-            borderRadius: 3,
-            color: "rgba(75, 114, 139, 1)"
+            fontWeight: "bold"
           }}
         >
           Agregar Prospecto
@@ -147,7 +144,7 @@ export default function AddUser({ recharge }) {
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
             <Grid container spacing={2} mt={0}>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={4}>
                 <TextField
                   id="name"
                   variant="outlined"
@@ -164,7 +161,7 @@ export default function AddUser({ recharge }) {
                   })}
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={4}>
                 <TextField
                   id="lastname"
                   variant="outlined"
@@ -181,7 +178,7 @@ export default function AddUser({ recharge }) {
                   })}
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={4}>
               <TextField
                 id="secondLastname"
                 label="Apellido Materno"
@@ -215,7 +212,7 @@ export default function AddUser({ recharge }) {
                   })}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={6}>
                 <TextField
                   id="email"
                   fullWidth

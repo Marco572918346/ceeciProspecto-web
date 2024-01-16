@@ -57,12 +57,14 @@ function ListUser({ user, onDelete, onUpdate }) {
         apiClient.get('api/users')
         .then(response => {
             setUserss(response.data || []);
+            setData({ ...user });
+
         })
         .catch(error => {
             console.log(error);
         });
 
-    }, []);
+    }, [user]);
 
   useEffect(() => {
     apiClient.get('api/status')
@@ -87,10 +89,10 @@ function ListUser({ user, onDelete, onUpdate }) {
   }, []);
 
 
-//   React.useEffect(() => {
-//     setData({ ...user });
+  // React.useEffect(() => {
+  //   setData({ ...user });
 
-//   }, [user]);
+  // }, [user]);
 
   return (
     <TableRow key={data.id}>
