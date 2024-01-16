@@ -13,6 +13,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  TextareaAutosize
 } from "@mui/material";
 import CancelIcon from '@mui/icons-material/Cancel';
 import SaveIcon from '@mui/icons-material/Save';
@@ -37,7 +38,7 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
 
   const onSubmit = (data) => {
     data.id = user.id;
-    data.observations = user.observations;
+    // data.observations = user.observations;
     //posibles modificaciones
     if (!statuss || isNaN(statuss)) {
       data.status = 1; // Puedes asignar un valor predeterminado, por ejemplo, 1
@@ -68,9 +69,12 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
         onUpdate(data);
         //reset();
 
-        setTimeout(function() {
-          location.reload(true);
-          }, 3000); 
+        // setTimeout(function() {
+        //   location.reload(true);
+        //   }, 3000); 
+        setTimeout(() => {
+          Swal.close();
+        }, 1500);
         })
       .catch((error) => {
         console.log("Error al actualizar usuario:", error);
@@ -131,12 +135,12 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
           fontWeight: "bold",
         }}
       >
-        Editar Usuario
+        Editar Prospecto
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
           <Grid container spacing={2} mt={0}>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <TextField
                 id="name"
                 label="Nombre"
@@ -154,7 +158,7 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
                 })}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <TextField
                 id="lastname"
                 label="Apellido Paterno"
@@ -172,7 +176,7 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
                 })}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <TextField
                 id="secondLastname"
                 label="Apellido Materno"
@@ -208,7 +212,7 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
                 })}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
               <TextField
                 id="email"
                 label="Correo electronico"
@@ -311,13 +315,26 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
                     </Select>
                   </FormControl>
               </Grid>
-              <Grid item xs={12} md={6}>
-                <TextField
+              <Grid item xs={12}>
+                <InputLabel htmlFor="observations">Observaciones</InputLabel>
+                <TextareaAutosize
                   id="observations"
-                  label='Observaciones'
                   variant="outlined"
                   fullWidth
                   defaultValue={user.observations}
+                  style={{
+                    width: '100%',
+                    minHeight: '80px',
+                    backgroundColor: 'white',
+                    color: 'black',
+                    fontFamily: 'inherit',
+                    borderRadius: 5,
+                    resize: 'none',
+                    fontSize: 16,
+                    borderColor: '#A3A3A3'
+                  }}
+                  maxRows={2}
+                  minRows={2}
                   error={!!errors.observations}
                   helperText={errors.observations?.message}
                   {...register("observations", {
