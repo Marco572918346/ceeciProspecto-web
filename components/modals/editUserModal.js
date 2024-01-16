@@ -317,7 +317,7 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
               </Grid>
               <Grid item xs={12}>
                 <InputLabel htmlFor="observations">Observaciones</InputLabel>
-                <TextareaAutosize
+                <textarea
                   id="observations"
                   variant="outlined"
                   fullWidth
@@ -331,18 +331,17 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
                     borderRadius: 5,
                     resize: 'none',
                     fontSize: 16,
-                    borderColor: '#A3A3A3'
+                    borderColor: '#A3A3A3',
+                    padding: 8
                   }}
-                  maxRows={2}
-                  minRows={2}
+                  // maxRows={2}
+                  // minRows={2}
+                  // rows={2}
+                  // cols={30}
                   error={!!errors.observations}
                   helperText={errors.observations?.message}
                   {...register("observations", {
-                    required: "Este campo es obligatorio",
-                    pattern: {
-                      value: /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g,
-                      message: "El apellido solo debe contener letras",
-                    },
+                    required: "Este campo es obligatorio"
                   })}
                 />
               </Grid>
