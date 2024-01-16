@@ -7,7 +7,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import PeopleIcon from "@mui/icons-material/People";
-import { Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField, TextareaAutosize } from "@mui/material";
 import { useForm } from "react-hook-form";
 import apiClient from "../../apiClient";
 import Swal from "sweetalert2";
@@ -33,6 +33,12 @@ export default function AddUser({ recharge }) {
 
   const [course, setCourseId] = React.useState('');
   const [courses, setCourse] = useState([]);
+
+  const [user, setUser] = useState({
+      status: '', 
+      area: '',
+      observations: ''    
+    });
 
   useEffect(() => {
     /*Ir por los productos desde el backend */
@@ -93,6 +99,10 @@ export default function AddUser({ recharge }) {
         setOpen(false);
         recharge();
         reset();
+
+        setTimeout(() => {
+          Swal.close();
+        }, 1500);
       })
       .catch((error) => {
         console.log(error);
@@ -261,6 +271,7 @@ export default function AddUser({ recharge }) {
                       }
                       onChange={ev => setStatusId(ev.target.value)}
                       fullWidth
+                      defaultValue={user.status}
                       label="Selecciona el status"
                       error={!!errors.status}
                       helperText={errors.status?.message}
@@ -290,6 +301,7 @@ export default function AddUser({ recharge }) {
                       }
                       onChange={ev => setCourseId(ev.target.value)}
                       fullWidth
+                      defaultValue={user.area}
                       label="Selecciona el area"
                       error={!!errors.status}
                       helperText={errors.status?.message}
@@ -304,18 +316,31 @@ export default function AddUser({ recharge }) {
                   </FormControl>
               </Grid>
               <Grid item xs={12} >
-                <TextField
+                <InputLabel htmlFor="observations">Observaciones</InputLabel>
+                <TextareaAutosize
                   id="observations"
-                  label="Observaciones"
                   variant="outlined"
                   fullWidth
                   error={!!errors.observations}
                   helperText={errors.observations?.message}
+                  style={{
+                    width: '100%',
+                    minHeight: '80px',
+                    backgroundColor: 'white',
+                    color: 'black',
+                    fontFamily: 'inherit',
+                    borderRadius: 5,
+                    resize: 'none',
+                    fontSize: 16,
+                    borderColor: '#A3A3A3'
+                  }}
+                  maxRows={2}
+                  minRows={2}
                   {...register("observations", {
                     required: "Este campo es obligatorio",
                     pattern: {
-                      value: /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g,
-                      message: "El apellido solo debe contener letras",
+                      value: /^[A-Za-zÁÉÍÓÚáéíóúñÑ,. ]+$/,
+                      message: "Las observaciones solo debe contener letras",
                     },
                   })}
                 />

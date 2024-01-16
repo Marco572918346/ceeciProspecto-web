@@ -147,6 +147,7 @@ export default function MiniDrawer({children}) {
             (text, index) => (
               <ListItem key={text} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
+                  onClick={handleUsuariosClick}
                   sx={{
                     minHeight: 48,
                     justifyContent: open ? "initial" : "center",
@@ -164,7 +165,7 @@ export default function MiniDrawer({children}) {
                   >
                     {
                       index === 0 ? (
-                        <PeopleIcon  onClick={handleUsuariosClick} /> 
+                        <PeopleIcon/> 
                       ) : index === 1 
                       
                     }

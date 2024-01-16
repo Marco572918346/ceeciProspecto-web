@@ -13,6 +13,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  TextareaAutosize
 } from "@mui/material";
 import CancelIcon from '@mui/icons-material/Cancel';
 import SaveIcon from '@mui/icons-material/Save';
@@ -71,6 +72,9 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
         // setTimeout(function() {
         //   location.reload(true);
         //   }, 3000); 
+        setTimeout(() => {
+          Swal.close();
+        }, 1500);
         })
       .catch((error) => {
         console.log("Error al actualizar usuario:", error);
@@ -312,12 +316,25 @@ function EditUserModal({ open, user, onClose, onUpdate }) {
                   </FormControl>
               </Grid>
               <Grid item xs={12}>
-                <TextField
+                <InputLabel htmlFor="observations">Observaciones</InputLabel>
+                <TextareaAutosize
                   id="observations"
-                  label='Observaciones'
                   variant="outlined"
                   fullWidth
                   defaultValue={user.observations}
+                  style={{
+                    width: '100%',
+                    minHeight: '80px',
+                    backgroundColor: 'white',
+                    color: 'black',
+                    fontFamily: 'inherit',
+                    borderRadius: 5,
+                    resize: 'none',
+                    fontSize: 16,
+                    borderColor: '#A3A3A3'
+                  }}
+                  maxRows={2}
+                  minRows={2}
                   error={!!errors.observations}
                   helperText={errors.observations?.message}
                   {...register("observations", {
