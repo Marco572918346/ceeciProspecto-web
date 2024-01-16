@@ -138,7 +138,7 @@ const TableUser = () => {
 
         <Box sx={{ marginRight: "10px", marginLeft: "10px", padding: "16px" }}>
         <TextField
-          placeholder="Buscar prospecto"
+          placeholder="Buscar prospecto por nombre"
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange} 

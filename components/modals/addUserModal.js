@@ -176,7 +176,7 @@ export default function AddUser({ recharge }) {
                   id="lastname"
                   variant="outlined"
                   fullWidth
-                  label="Apellido"
+                  label="Apellido Paterno"
                   error={!!errors.lastname}
                   helperText={errors.lastname?.message}
                   {...register("lastname", {
