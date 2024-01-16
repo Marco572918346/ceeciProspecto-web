@@ -332,7 +332,8 @@ export default function AddUser({ recharge }) {
                     borderRadius: 5,
                     resize: 'none',
                     fontSize: 16,
-                    borderColor: '#A3A3A3'
+                    borderColor: '#A3A3A3',
+                    padding: 8
                   }}
                   // maxRows={2}
                   // minRows={2}
