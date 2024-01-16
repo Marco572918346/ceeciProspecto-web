@@ -317,7 +317,7 @@ export default function AddUser({ recharge }) {
               </Grid>
               <Grid item xs={12} >
                 <InputLabel htmlFor="observations">Observaciones</InputLabel>
-                <TextareaAutosize
+                <textarea
                   id="observations"
                   variant="outlined"
                   fullWidth
@@ -334,14 +334,10 @@ export default function AddUser({ recharge }) {
                     fontSize: 16,
                     borderColor: '#A3A3A3'
                   }}
-                  maxRows={2}
-                  minRows={2}
+                  // maxRows={2}
+                  // minRows={2}
                   {...register("observations", {
-                    required: "Este campo es obligatorio",
-                    pattern: {
-                      value: /^[A-Za-zÁÉÍÓÚáéíóúñÑ,. ]+$/,
-                      message: "Las observaciones solo debe contener letras",
-                    },
+                    required: "Este campo es obligatorio"
                   })}
                 />
               </Grid>
