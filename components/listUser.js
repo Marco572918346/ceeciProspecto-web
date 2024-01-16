@@ -112,7 +112,15 @@ function ListUser({ user, onDelete, onUpdate }) {
       <TableCell>
       {userCourse ? `${userCourse.area} / ${userCourse.name}` : "N/A"}
       </TableCell>
-      <TableCell>{data.observations}</TableCell>
+      <TableCell style={{ whiteSpace: 'pre-line' }}>
+        <ul>
+          {data.observations.split('\n').map((line, index) => (
+            line.trim() !== '' && (
+              <li key={index}>{line}</li>
+            )
+          ))}
+        </ul>
+      </TableCell>
       
       <TableCell>
         <IconButton
