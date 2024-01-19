@@ -1,10 +1,9 @@
 {
   "development": {
-    "username": "admin",
-    "password": "n1z4pH3c",
-    "database": "ceeci_prospectos",
-    "host": "mysql-160592-0.cloudclusters.net",
-    "port": "16843",
+    "username": "root",
+    "password": null,
+    "database": "ceeci_list",
+    "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
