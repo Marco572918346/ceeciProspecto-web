@@ -24,6 +24,28 @@ module.exports = (sequelize, DataTypes) => {
           foreignKey: 'area'
         }
       );
+
+      models.User.belongsTo(models.Roll,
+        {
+          as: 'userRoll',
+          foreignKey: 'status'
+        }
+      );
+
+      models.User.hasMany(models.RollList,
+        {
+          as: 'studentRoll',
+          foreignKey: 'studentId'
+        }
+      );
+
+      // models.User.hasMany(models.Rolls,
+      //   {
+      //     as: 'rollc',
+      //     foreignKey: 'roll'
+      //   }
+      // );
+
     }
   }
   User.init({
@@ -35,7 +57,9 @@ module.exports = (sequelize, DataTypes) => {
     address: DataTypes.STRING,
     status: DataTypes.INTEGER,
     area: DataTypes.INTEGER,
-    observations: DataTypes.STRING
+    observations: DataTypes.STRING,
+    roll: DataTypes.STRING,
+    key: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'User',

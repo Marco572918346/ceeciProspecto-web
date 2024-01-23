@@ -54,6 +54,17 @@ module.exports = {
         type: Sequelize.STRING(10000),
         allowNull:true,
       },
+      roll: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Rolls',
+          key: 'id'
+        }
+      },
+      key: {
+        type: Sequelize.STRING, 
+        //allowNull:false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
