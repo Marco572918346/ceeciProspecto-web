@@ -48,7 +48,7 @@ const userList = async (req, res) => {
               }],
           };
       }
-      if (status) {
+      if (status) { 
           users = {
             ...users,
             status,
@@ -88,25 +88,51 @@ const userList = async (req, res) => {
 
 const addUser = async (req, res) => {
   try {
-    const dataUser = {...req.body}
-    const users = await db.User.create(dataUser);
+    // Desestructura los datos del cuerpo de la solicitud
+    const { name, lastname, secondLastname, phone, email, address, status, area, observations } = req.body;
 
-    res.status(200).json(
-      {
-        users,
-        message: 'El usuario fue registrado correctamente'
-      }
-    )
-    
+    // Crea un nuevo usuario en la base de datos
+    const newUser = await db.User.create({
+      name,
+      lastname,
+      secondLastname,
+      phone,
+      email,
+      address,
+      status,
+      area,
+      observations,
+    });
+
+    // Retorna una respuesta exitosa con el usuario creado
+    res.status(200).json({
+      user: newUser,
+      message: 'El usuario fue registrado correctamente',
+    });
   } catch (error) {
-    return res.status(400).json(
-      {
+    // Verifica si el error es una validación de Sequelize
+    if (error.name === 'SequelizeValidationError') {
+      // Mapea los errores de validación y retorna mensajes específicos
+      const validationErrors = error.errors.map((validationError) => ({
+        field: validationError.path,
+        message: validationError.message,
+      }));
+
+      return res.status(400).json({
         error: true,
-        message: `Ocurrio un error al procesar la peticion: ${error.message}`
-      }
-    )
+        message: 'Error de validación',
+        errors: validationErrors,
+      });
+    }
+
+    // Si no es un error de validación de Sequelize, retorna un mensaje genérico
+    return res.status(500).json({
+      error: true,
+      message: `Ocurrió un error al procesar la petición: ${error.message}`,
+    });
   }
-}
+};
+
 
 const updateUser = async (req, res) => {
   try {

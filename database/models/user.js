@@ -27,14 +27,96 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
-    name: DataTypes.STRING,
-    lastname: DataTypes.STRING,
-    secondLastname: DataTypes.STRING,
-    phone: DataTypes.STRING,
-    email: DataTypes.STRING,
-    address: DataTypes.STRING,
-    status: DataTypes.INTEGER,
-    area: DataTypes.INTEGER,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        notNull: {
+          msg: "El Nombre es obligatorio"
+        },
+        is: {
+          args: /^[a-zA-ZáéíóúñÁÉÍÓÚ\s]+$/,
+          msg: "El Nombre no debe contener Números"
+        }
+      }
+    },
+    lastname: {
+      type: DataTypes.STRING,
+      allowNull:false,
+      validate:{
+        notNull: {
+          msg: "El Apellido Paterno es obligatorio"
+        },
+        is: {
+          args: /^[a-zA-ZáéíóúñÁÉÍÓÚ\s]+$/,
+          msg: "El Apellido Paterno no debe contener Números"
+        }
+      }
+    },
+    secondLastname: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        notNull: {
+          msg: "El Apellido Materno es obligatorio"
+        },
+        is: {
+          args: /^[a-zA-ZáéíóúñÁÉÍÓÚ\s]+$/,
+          msg: "El Apellido Materno no debe contener Números"
+        }
+      }
+    },
+    phone: {
+     type: DataTypes.STRING,
+     allowNull: false,
+     validate: {
+      notNull: {
+        msg: "El número de teléfono es obligatorio"
+      },
+      isNumeric: {
+        msg: "Solo se admiten números"
+      }
+    } 
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        notNull:{
+          msg: 'El email es obligatorio',
+        },
+        isEmail: {
+          msg: 'Debe ingresar un email válido'
+        }
+      }
+    },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        notNull:{
+          msg: 'La dirección es obligatoria',
+        }
+      }
+    },
+    status: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate:{
+        notNull:{
+          msg: 'El estatus es obligatorio',
+        }
+      }
+    },
+    area: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'El curso es obligatorio'
+        }
+      }
+    },
     observations: DataTypes.STRING
   }, {
     sequelize,
