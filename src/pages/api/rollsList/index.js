@@ -15,14 +15,14 @@ const getRollList = async (req, res) => {
 
     try{
             const data = await db.RollList.findAll({
-                include: [{
-                    model: db.User,
-                    as: 'rools',
-                    attributes: ['name', 'lastname', 'secondLastname'],
-                include: [{
-                    model: db.Status,
-                    as: 'userStatus',
-                    attributes: ['name'],
+                    include: [{
+                        model: db.User,
+                        as: 'rools',
+                        attributes: ['name', 'lastname', 'secondLastname'],
+                    include: [{
+                        model: db.Status,
+                        as: 'userStatus',
+                        attributes: ['name'],
                     }],
                 }],
             });

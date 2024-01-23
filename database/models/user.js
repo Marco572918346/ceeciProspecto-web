@@ -58,7 +58,8 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.INTEGER,
     area: DataTypes.INTEGER,
     observations: DataTypes.STRING,
-    roll:DataTypes.STRING
+    roll: DataTypes.STRING,
+    key: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'User',
