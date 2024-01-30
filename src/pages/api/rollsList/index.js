@@ -27,7 +27,7 @@ const getRollList = async (req, res) => {
                 }],
             });
             const newData = data.map(roll => {
-                const user = roll.rools; //acceder a la instancia de User relacionada
+                const user = roll.roll; //acceder a la instancia de User relacionada
                 const status = user ? user.userStatus: null ;
 
                     if (!user){
