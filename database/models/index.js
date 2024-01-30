@@ -23,13 +23,11 @@ if (config.use_env_variable) {
 import user from './user';
 import course from './course';
 import status from './status';
-import roll from './roll';
 import rolllist from './rolllist';
 
 db.User = user(sequelize, Sequelize.DataTypes);
 db.Status = status(sequelize, Sequelize.DataTypes);
 db.Course = course(sequelize, Sequelize.DataTypes);
-db.Roll = roll(sequelize, Sequelize.DataTypes);
 db.RollList = rolllist(sequelize, Sequelize.DataTypes);
 
 Object.keys(db).forEach(modelName => {

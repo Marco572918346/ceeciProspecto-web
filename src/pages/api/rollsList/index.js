@@ -10,7 +10,7 @@ export default function handler(req, res){
             res.status(400).json({error: true, message: "Peticion errónea"})
     }
 }
-
+    
 const getRollList = async (req, res) => {
 
     try{
@@ -18,7 +18,7 @@ const getRollList = async (req, res) => {
                     include: [{
                         model: db.User,
                         as: 'rools',
-                        attributes: ['name', 'lastname', 'secondLastname'],
+                        attributes: ['name', 'lastname', 'secondLastname', 'area'],
                     include: [{
                         model: db.Status,
                         as: 'userStatus',
