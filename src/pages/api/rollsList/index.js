@@ -20,30 +20,31 @@ const getRollList = async (req, res) => {
                         as: 'rools',
                         attributes: ['name', 'lastname', 'secondLastname'],
                     include: [{
-                        model: db.Status,
-                        as: 'userStatus',
-                        attributes: ['name'],
+                        model: db.Course,
+                        as: 'course',
+                        attributes: ['id', 'name', 'area'],
                     }],
                 }],
             });
             const newData = data.map(roll => {
                 const user = roll.rools; //acceder a la instancia de User relacionada
-                const status = user ? user.userStatus: null ;
+                const course = user ? user.course: null ;
 
                     if (!user){
                         return {
                             ...roll.toJSON(),
                             fullName: 'N/A',
-                            statusInfo: 'N/A',
+                            course: 'N/A',
                         };
                     }
                 //concatenar los atributos
                 const fullName = `${user.name} ${user.lastname} ${user.secondLastname}`;
+                const courseFull = `${course.name} ${course.area}`
                 //retornar fullName
                 return{
                     ...roll.toJSON(),
                     fullName,
-                    statusInfo: status ? status.name : 'N/A',
+                    courseFull,
                 };
             })
             .filter(record => record.statusInfo !== 'Rechazado');
@@ -60,17 +61,28 @@ const getRollList = async (req, res) => {
     }
 }
 
-const addRollList = async (req, res) => {
+/* const addRollList = async (req, res) => {
     try{
-        const dataRollList = {...req.body}
-        const rollList = await db.RollList.create(dataRollList);
+        let dataList;
+
+        if (Array.isArray(req.body)) {
+            // Si req.body es un array, lo utilizamos directamente
+            dataList = req.body;
+        } else {
+            // Si no es un array, lo convertimos en un array con un solo elemento
+            dataList = [req.body];
+        }
+
+        console.log("Data Roll List:", dataList); 
+        
+        const createdRollLists = await Promise.all(dataList.map(data => db.RollList.create(data)));
 
         res.status(200).json(
             {  
-                rollList,
-                message: "Se agrego un nuevo lista de usuario"
+                rollLists: createdRollLists,
+                message: "Se agrego una nuevo lista de usuario"
             }
-        )
+        );
     } catch(error){
         return res.status(400).json(
             {
@@ -79,4 +91,66 @@ const addRollList = async (req, res) => {
             }
         )
     }
-}
+} */
+
+const addRollList = async (req, res) => {
+    try {
+        let dataList;
+
+        if (Array.isArray(req.body)) {
+            // Si req.body es un array, lo utilizamos directamente
+            dataList = req.body;
+        } else {
+            // Si no es un array, lo convertimos en un array con un solo elemento
+            dataList = [req.body];
+        }
+
+        console.log("Data Roll List:", dataList);
+
+        const updatedRollLists = [];
+        const newRollLists = [];
+
+        // Separar la lógica para actualizar y agregar nuevos registros
+        await Promise.all(dataList.map(async (data) => {
+            // Buscar un registro existente con el mismo studentId y date
+            const existingRollList = await db.RollList.findOne({
+                where: {
+                    studentId: data.studentId,
+                    date: data.date
+                }
+            });
+
+            if (existingRollList) {
+                // Si existe, actualizamos los datos y lo agregamos a la lista de actualizados
+                await existingRollList.update(data);
+                updatedRollLists.push(existingRollList);
+            } else {
+                // Si no existe, creamos un nuevo registro y lo agregamos a la lista de nuevos
+                const newRollList = await db.RollList.create(data);
+                newRollLists.push(newRollList);
+            }
+        }));
+
+        let message = "No se realizaron cambios";
+
+        // Verificar si se actualizaron o agregaron registros y ajustar el mensaje
+        if (updatedRollLists.length > 0 && newRollLists.length > 0) {
+            message = "Se actualizaron algunos registros y se agregaron nuevos";
+        } else if (updatedRollLists.length > 0) {
+            message = "Se actualizaron algunos registros";
+        } else if (newRollLists.length > 0) {
+            message = "Se agregaron nuevos registros";
+        }
+
+        res.status(200).json({
+            updatedRollLists,
+            newRollLists,
+            message
+        });
+    } catch (error) {
+        return res.status(400).json({
+            error: true,
+            message: `Ocurrió un error con la petición: ${error.message}`
+        });
+    }
+};

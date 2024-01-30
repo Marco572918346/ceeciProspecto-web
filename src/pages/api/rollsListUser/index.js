@@ -54,7 +54,7 @@ const userList = async (req, res) => {
     }
 
       const userss = await db.User.findAll({
-            attributes: ['status','name','lastname','secondLastname','key'],
+            attributes: ['id','status','name','lastname','secondLastname','key'],
             where: users,
             include: [
                 {
