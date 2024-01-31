@@ -15,21 +15,6 @@ export default function handler(req, res) {
   }
 }
 
-
-// const userList = async (req, res) => {
-//   try {
-//     const users = await db.User.findAll();
-//     return res.json(users);
-    
-//   } catch (error) {
-//     return res.status(400).json(
-//       {
-//         error: true,
-//         message: `Ocurrio un error al procesar la peticion: ${error.message}`
-//       }
-//     )
-//   }
-// }
 const userList = async (req, res) => {
   try {
       //leer el Component a filtrar

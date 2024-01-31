@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
   RollList.init({
     attendance: DataTypes.BOOLEAN,
     studentId: DataTypes.INTEGER,
-    date: DataTypes.DATEONLY
+    date: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'RollList',

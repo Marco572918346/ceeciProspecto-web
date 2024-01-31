@@ -51,7 +51,7 @@ module.exports = {
         }
       },
       observations: {
-        type: Sequelize.STRING(200),
+        type: Sequelize.STRING(10000),
         allowNull:true,
       },
       createdAt: {
