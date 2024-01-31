@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "Utim@2023",
-    "database": "ceeci_listV2",
+    "database": "ceeci",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
