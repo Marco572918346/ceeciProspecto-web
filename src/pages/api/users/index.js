@@ -88,16 +88,8 @@ const userList = async (req, res) => {
 
 const addUser = async (req, res) => {
   try {
+    
     const dataUser = {...req.body}
-     // Generar el valor para el atributo "key"
-     const currentYear = new Date().getFullYear().toString();
-     const currentDay = ('0' + new Date().getDate()).slice(-2);
-     const randomDigits = Math.floor(Math.random() * 10).toString() + Math.floor(Math.random() * 10).toString();
-     const key = currentYear + currentDay + randomDigits;
-
-     // Asignar el valor de "key" al usuario
-    dataUser.key = key;
-
     const users = await db.User.create(dataUser);
 
     res.status(200).json(

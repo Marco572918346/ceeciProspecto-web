@@ -54,7 +54,7 @@ const userList = async (req, res) => {
     }
 
       const userss = await db.User.findAll({
-            attributes: ['status','name','lastname','secondLastname','key'],
+            attributes: ['id','status','name','lastname','secondLastname','area'],
             where: users,
             include: [
                 {
@@ -71,11 +71,13 @@ const userList = async (req, res) => {
                 }
             ]
         });
-
+      
       const mappedUsers = userss.map(user => {
         const fullName = `${user.name || ''} ${user.lastname || ''} ${user.secondLastname || ''}`.trim();
+        const curso = `${user.course.name}`
         return {
           ...user.toJSON(),
+          curso,
           fullName
         };
       });
