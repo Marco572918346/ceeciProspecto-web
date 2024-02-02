@@ -24,6 +24,13 @@ module.exports = (sequelize, DataTypes) => {
           foreignKey: 'area'
         }
       );
+
+      models.User.hasMany(models.RollList,
+        {
+          as: 'studentRoll',
+          foreignKey: 'studentId'
+        }
+      );
     }
   }
   User.init({

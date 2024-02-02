@@ -8,8 +8,6 @@ export default function handler(req, res) {
       return addUser(req, res);
     case 'PUT':
       return updateUser(req, res);
-    case 'DELETE':
-      return deleteUser(req, res);
     default:
       res.status(400).json({error: true, message: 'Peticion erronea'});
   }
@@ -17,9 +15,9 @@ export default function handler(req, res) {
 
 const userList = async (req, res) => {
   try {
+
       //leer el Component a filtrar
       const { name, status } = req.query;
-
       //Proporcion de operadores
       const { Op } = require("sequelize");
       //leer los Component
@@ -38,27 +36,41 @@ const userList = async (req, res) => {
             ...users,
             status,
           };
-        }
+    }
 
       const userss = await db.User.findAll({
-          where: users,
-          include: [
-            {
-              model: db.Status,
-              as: 'userStatus',
-    
-              attributes: ['name']
-            },
-            {
-              model: db.Course,
-              as: 'course',
-    
-              attributes: ['name', 'area']
-            }
-          ]
-      });
+            attributes: ['id','status','name','lastname','secondLastname','area'],
+            where: users,
+            include: [
+                {
+                model: db.Status,
+                as: 'userStatus',
+        
+                attributes: ['name']
+                },
+                {
+                model: db.Course,
+                as: 'course',
+        
+                attributes: ['name', 'area']
+                }
+            ]
+        });
+      
+      const mappedUsers = userss.map(user => {
+        const fullName = `${user.name || ''} ${user.lastname || ''} ${user.secondLastname || ''}`.trim();
+        const course = `${user.course.name} ${user.course.area}`;
+        const status = `${user.userStatus.name}`
+        return {
+          ...user.toJSON(),
+          course,
+          fullName,
+          status
+        };
+      })
+      .filter(record => record.status == 'Prospecto');
+        return res.json(mappedUsers);
 
-      return res.json(userss);
   } catch(error) {
       console.log(error)
       return res.status(400).json(
@@ -73,7 +85,6 @@ const userList = async (req, res) => {
 
 const addUser = async (req, res) => {
   try {
-    
     const dataUser = {...req.body}
     const users = await db.User.create(dataUser);
 
@@ -97,6 +108,7 @@ const addUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const { id } = req.query;
+
     const users = await db.User.update({...req.body},
       {
         where: {
@@ -108,31 +120,6 @@ const updateUser = async (req, res) => {
       {
         users,
         message: 'El usuario fue actualizado correctamente'
-      }
-    )
-    
-  } catch (error) {
-    return res.status(400).json(
-      {
-        error: true,
-        message: `Ocurrio un error al procesar la peticion: ${error.message}`
-      }
-    )
-  }
-}
-
-const deleteUser = async (req, res) => {
-  try {
-    const { id } = req.query;
-    const users = await db.User.destroy({
-      where: {
-        id
-      }
-    })
-    res.status(200).json(
-      {
-        users,
-        message: 'El usuario fue eliminado correctamente'
       }
     )
     

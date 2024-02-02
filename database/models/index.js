@@ -23,25 +23,12 @@ if (config.use_env_variable) {
 import user from './user';
 import course from './course';
 import status from './status';
-
-// fs
-//   .readdirSync(__dirname)
-//   .filter(file => {
-//     return (
-//       file.indexOf('.') !== 0 &&
-//       file !== basename &&
-//       file.slice(-3) === '.js' &&
-//       file.indexOf('.test.js') === -1
-//     );
-//   })
-//   .forEach(file => {
-//     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-//     db[model.name] = model;
-//   });
+import rolllist from './rolllist';
 
 db.User = user(sequelize, Sequelize.DataTypes);
 db.Status = status(sequelize, Sequelize.DataTypes);
 db.Course = course(sequelize, Sequelize.DataTypes);
+db.RollList = rolllist(sequelize, Sequelize.DataTypes);
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
