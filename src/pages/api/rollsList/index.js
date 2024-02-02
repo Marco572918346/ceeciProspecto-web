@@ -39,7 +39,7 @@ const getRollList = async (req, res) => {
                     }
                 //concatenar los atributos
                 const fullName = `${user.name} ${user.lastname} ${user.secondLastname}`;
-                const courseFull = `${course.name} ${course.area}`
+                const courseFull = `${user.course.name} ${user.course.area}`
                 //retornar fullName
                 return{
                     ...roll.toJSON(),
