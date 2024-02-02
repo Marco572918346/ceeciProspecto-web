@@ -1,6 +1,17 @@
+import Cors from 'cors';
+import initMiddleware from '../../../../lib/init-middleware';
 import db from "../../../../database/models";
 
-export default function handler(req, res) {
+const cors = initMiddleware(
+  Cors({
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  })
+);
+
+export default async function handler(req, res) {
+
+  await cors(req, res);
+
   switch (req.method) {
     case 'GET':
       return userList(req, res);
