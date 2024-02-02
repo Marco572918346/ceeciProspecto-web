@@ -1,9 +1,18 @@
-//responsable de detectar el tipo de request 
+import Cors from 'cors';
+import initMiddleware from '../../../../lib/init-middleware';
 import db from "../../../../database/models";
 
+const cors = initMiddleware(
+  Cors({
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  })
+);
 
 //e invocar a la funcion adecuada
-export default function handler(req,res) {
+export default async function handler(req,res) {
+
+    await cors(req, res);
+
     switch(req.method) {
         case 'POST':
             return addArea(req, res);
